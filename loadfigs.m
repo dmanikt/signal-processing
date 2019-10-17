@@ -1,6 +1,6 @@
-files = dir('Sound_Files/*.wav');
+files = dir('res/Sound_Files/*.wav');
 for i = 1:length(files)
-	[y,fs] = audioread(['Sound_Files/' files(i).name]);
+	[y,fs] = audioread(['res/Sound_Files/' files(i).name]);
 	%y = y(:1); % extract single channel
 	dt = 1/fs;
 	t = 0:dt:(length(y)*dt)-dt;
