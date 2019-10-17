@@ -1,6 +1,6 @@
 clearvars;
 close all;
-[f,fs] = audioread('noise.mp3');
+[f,fs] = audioread('res/noise.mp3');
 
 p = audioplayer(f,fs);
 p.play;
@@ -18,16 +18,26 @@ df = fs/N;
 w = (-(N/2):(N/2)-1)*df;
 y = fft(f(:,1),N)/N;
 y2 = fftshift(y);
-figure;
-plot(w,abs(y2));
+%figure;
+%plot(w,abs(y2));
 
-Nyquist = audioinfo('noise.mp3').SampleRate/2;
+Nyquist = audioinfo('res/noise.mp3').SampleRate/2;
 n = 7;
-beginFreq = 200/Nyquist;
+beginFreq = 150/Nyquist;
 endFreq = 5000/Nyquist;
 [b,a] = butter(n,[beginFreq,endFreq],'bandpass');
 
 fOut = filter(b,a,f);
+
+N = size(fOut,1);
+figure;
+subplot(2,1,1);
+stem(1:N,fOut(:,1));
+title('Noise Reduced Left Channel');
+subplot(2,1,2);
+stem(1:N,fOut(:,2));
+title('Noise Reduced Right Channel');
+
 p = audioplayer(fOut, fs);
 p.play;
 
